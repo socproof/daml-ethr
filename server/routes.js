@@ -1,14 +1,10 @@
-const routes = (app, db, accounts, contactList) => {
-  app.get('/contacts', async (request, response) => {
+const routes = (app, contract, account) => {
+  app.get('/transactions', async (request, response) => {
     let cache = [];
-    const COUNTER = await contactList.methods.count().call();
 
-    for (let i = 1; i <= COUNTER; i++) {
-      const contact = await contactList.methods.contacts(i).call();
-      cache = [...cache, contact];
-    }
+    const transactions = await contract.transactions.call(account, 0);
 
-    response.json(cache);
+    response.json(transactions);
   });
 };
 

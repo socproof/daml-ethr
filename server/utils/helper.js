@@ -1,9 +1,9 @@
 const fs = require('fs');
 
 const Helper = class {
-  static getContractABI(name) {
-    const contract = JSON.parse(fs.readFileSync(`./build/contracts/${name}.json`, 'utf8'));
-    return contract.abi;
+  static async getContractAddress(provider, contract) {
+    const netId = await provider.eth.net.getId();
+    return contract.networks[netId].address;
   }
 }
 
