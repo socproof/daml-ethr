@@ -4,7 +4,7 @@ const cors = require('cors');
 const routes = require('./routes');
 const Web3 = require('web3');
 const contract = require('@truffle/contract');
-const artifact = require('../build/contracts/DAMLTransactions.json');
+const artifact = require('../build/contracts/Transactions.json');
 const Helper = require('./utils/helper')
 
 app.use(cors());
@@ -20,18 +20,18 @@ if (typeof provider !== 'undefined') {
 const init = async () => {
   const accounts = await provider.eth.getAccounts();
 
-  const DAMLTransactionsContract = contract(artifact);
-  await DAMLTransactionsContract.setProvider(provider.currentProvider);
-  const address = await Helper.getContractAddress(provider, DAMLTransactionsContract);
-  const instance = await DAMLTransactionsContract.at(address);
+  const TransactionsContract = contract(artifact);
+  await TransactionsContract.setProvider(provider.currentProvider);
+  const address = await Helper.getContractAddress(provider, TransactionsContract);
+  const instance = await TransactionsContract.at(address);
 
   try {
-    await instance.addTransaction('key-string', 'value-string', {from: accounts[0]});
+    await instance.addTransaction('key', 'value', {from: accounts[0]});
   } catch (err) {
     console.log("ERROR! " + err.message);
   }
 
-  routes(app, instance, accounts[0]);
+  routes(app, instance);
 
   app.listen(process.env.PORT || 3001, () => {
     console.log('listening on port ' + (process.env.PORT || 3001));
