@@ -26,7 +26,7 @@ const init = async () => {
   const instance = await TransactionsContract.at(address);
 
   try {
-    await instance.addTransaction('key', 'value', {from: accounts[0]});
+    await instance.addTransaction(Helper.getRandomNumber(), {from: accounts[0]});
   } catch (err) {
     console.log("ERROR! " + err.message);
   }
