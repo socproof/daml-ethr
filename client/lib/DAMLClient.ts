@@ -1,14 +1,13 @@
 import * as path from "path";
 import {loadSync} from '@grpc/proto-loader';
-import {loadPackageDefinition, credentials, GrpcObject} from "@grpc/grpc-js";
+import {loadPackageDefinition, credentials} from "@grpc/grpc-js";
 import {get} from 'lodash';
 
 export default class DAMLClient {
   private readonly baseName = path.basename('client');
-  private readonly packagePath = 'com.daml.ledger.api.v1';
   public readonly client;
 
-  constructor(pathToProto, serviceName, {serverPath}) {
+  constructor(pathToProto, serviceName, {serverPath, packagePath = 'com.daml.ledger.api.v1'}) {
     const packageDefinition = loadSync(
       this.baseName + pathToProto,{
         keepCase: true,
@@ -19,7 +18,7 @@ export default class DAMLClient {
       });
 
     const packageLoaded = loadPackageDefinition(packageDefinition);
-    const lib = get(packageLoaded, this.packagePath);
-    this.client = new lib[serviceName](serverPath, credentials.createInsecure())
+    const lib = get(packageLoaded, packagePath);
+    this.client = new lib[serviceName](serverPath, credentials.createInsecure());
   }
 }

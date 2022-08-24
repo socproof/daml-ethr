@@ -1,0 +1,64 @@
+
+// Copyright (c) 2022 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+package com.daml.ledger.api.v1.admin;
+
+service PartyManagementService {
+
+  rpc GetParticipantId (GetParticipantIdRequest) returns (GetParticipantIdResponse);
+
+  rpc GetParties (GetPartiesRequest) returns (GetPartiesResponse);
+
+  rpc ListKnownParties (ListKnownPartiesRequest) returns (ListKnownPartiesResponse);
+
+  rpc AllocateParty (AllocatePartyRequest) returns (AllocatePartyResponse);
+}
+
+message GetParticipantIdRequest {
+}
+
+message GetParticipantIdResponse {
+
+  string participant_id = 1;
+}
+
+message GetPartiesRequest {
+  repeated string parties = 1;
+}
+
+message GetPartiesResponse {
+
+  repeated PartyDetails party_details = 1;
+}
+
+message ListKnownPartiesRequest {
+}
+
+message ListKnownPartiesResponse {
+
+  repeated PartyDetails party_details = 1;
+}
+
+message AllocatePartyRequest {
+
+  string party_id_hint = 1;
+
+  string display_name = 2;
+}
+
+message AllocatePartyResponse {
+
+  PartyDetails party_details = 1;
+}
+
+message PartyDetails {
+
+  string party = 1;
+
+  string display_name = 2;
+
+  bool is_local = 3;
+}

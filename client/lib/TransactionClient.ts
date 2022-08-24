@@ -1,5 +1,6 @@
 import DAMLClient from "./DAMLClient";
 import {GetTransactionsResponse} from "../interfaces/transaction_service";
+import axios from "axios";
 
 export default class TransactionClient extends DAMLClient {
   static readonly pathToProto = '/proto/transaction_service.proto';
@@ -9,17 +10,19 @@ export default class TransactionClient extends DAMLClient {
     super(TransactionClient.pathToProto, TransactionClient.serviceName, {serverPath});
   }
 
-  public runGetTransactions = (data, cb = () => {}) => {
+  public runGetTransactions = (data) => {
     const stream = this.client.getTransactions(data, {});
-    stream.on('data', (response) => {
-      console.log(this.getEventsFromResponse(response));
+    stream.on('data', async (response: GetTransactionsResponse) => {
+      await this.sendTransactions(response);
     });
     stream.on('end', () => {
-      cb();
+      console.log('stream has ended');
     });
   };
 
-  private getEventsFromResponse = (response: GetTransactionsResponse) => {
-    return response.transactions.map(({events}) => events);
+  private async sendTransactions({transactions = []}) {
+    await axios.all(transactions.map((transaction) =>
+      axios.post(`http://localhost:${process.env.NODE_SERVER_PORT}/transactions`, transaction)
+    )).then((data) => console.log(data));
   }
 }
