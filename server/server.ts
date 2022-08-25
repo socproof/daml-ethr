@@ -1,13 +1,14 @@
 require('dotenv').config({path: `${__dirname}/../.env`});
 
 const express = require('express');
-const app = express();
 const cors = require('cors');
-const routes = require('./routes');
 const Web3 = require('web3');
 const contract = require('@truffle/contract');
 const artifact = require('../build/contracts/Transactions.json');
 const Helper = require('./utils/helper');
+
+const routes = require('./routes');
+const app = express();
 
 app.use(cors());
 app.use(express.json());

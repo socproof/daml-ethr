@@ -1,19 +1,17 @@
 {
   "name": "daml-ethr",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon server/server.js",
-    "client": "ts-node -T client/client.ts"
+    "server": "nodemon server/server.ts",
+    "client": "nodemon client/client.ts",
+    "start": "ts-node server/server.ts & ts-node client/client.ts"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@grpc/grpc-js": "^1.6.8",
     "@grpc/proto-loader": "^0.7.0",
-    "@improbable-eng/grpc-web": "^0.15.0",
     "@truffle/contract": "^4.5.19",
     "axios": "^0.27.2",
     "cors": "^2.8.5",
