@@ -13,7 +13,9 @@ export default class TransactionClient extends DAMLClient {
   public runGetTransactions = (data) => {
     const stream = this.client.getTransactions(data, {});
     stream.on('data', async (response: GetTransactionsResponse) => {
+      console.log('data has come');
       await this.sendTransactions(response);
+
     });
     stream.on('end', () => {
       console.log('stream has ended');

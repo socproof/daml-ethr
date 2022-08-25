@@ -13,9 +13,6 @@ const data = {
   "begin": {
     "boundary": "LEDGER_BEGIN"
   },
-  "end": {
-    "boundary": "LEDGER_END"
-  },
   "filter": {
     "filters_by_party": {}
   }
